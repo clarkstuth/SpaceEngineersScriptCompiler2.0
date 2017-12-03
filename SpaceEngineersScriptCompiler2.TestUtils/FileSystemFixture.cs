@@ -9,7 +9,7 @@ namespace SpaceEngineersScriptCompiler2.TestUtils
             new DirectoryInfo(Path.GetTempPath() + "SpaceEngineersScriptCompilerTests" + DateTime.Now.ToBinary());
 
         /// <summary>
-        /// Create a new test directory with a random name, then return a reference to it.
+        ///     Create a new test directory with a random name, then return a reference to it.
         /// </summary>
         /// <returns></returns>
         public DirectoryInfo CreateTestDirectory()
@@ -19,7 +19,7 @@ namespace SpaceEngineersScriptCompiler2.TestUtils
         }
 
         /// <summary>
-        /// Deletes the test directory and any files and folders underneath
+        ///     Deletes the test directory and any files and folders underneath
         /// </summary>
         public void RemoveTestDirectory()
         {
@@ -38,7 +38,7 @@ namespace SpaceEngineersScriptCompiler2.TestUtils
         }
 
         /// <summary>
-        /// Create the given FileInfo and write the provided content to it.
+        ///     Create the given FileInfo and write the provided content to it.
         /// </summary>
         /// <param name="filepath"></param>
         /// <param name="content"></param>
@@ -56,7 +56,7 @@ namespace SpaceEngineersScriptCompiler2.TestUtils
         }
 
         /// <summary>
-        /// Generates a FileInfo from a provided file builder.
+        ///     Generates a FileInfo from a provided file builder.
         /// </summary>
         /// <param name="fileBuilder"></param>
         /// <returns></returns>
@@ -64,7 +64,5 @@ namespace SpaceEngineersScriptCompiler2.TestUtils
         {
             return WriteTestFile(fileBuilder.FileName, fileBuilder.GetContents());
         }
-
-
     }
 }

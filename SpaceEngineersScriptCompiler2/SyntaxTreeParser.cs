@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace SpaceEngineersScriptCompiler2.Tests
+namespace SpaceEngineersScriptCompiler2
 {
     public class SyntaxTreeParser
     {

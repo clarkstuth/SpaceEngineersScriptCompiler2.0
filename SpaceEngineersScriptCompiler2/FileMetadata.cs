@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -10,17 +6,21 @@ namespace SpaceEngineersScriptCompiler2
 {
     public class FileMetadata
     {
+        private readonly MainMethodLocator mainMethodLocator = new MainMethodLocator();
+        private ClassLocator classLocator = new ClassLocator();
+
         public SyntaxTree SyntaxTree { get; }
-        public String FileName { get; }
+        public string FileName { get; }
 
         public MethodDeclarationSyntax MainNode { get; private set; }
         public bool HasMain => MainNode != null;
+        
+        public Dictionary<string, ClassDeclarationSyntax> Classes { get; private set; }
 
-        private readonly MainMethodLocator mainMethodLocator = new MainMethodLocator();
-
-        public FileMetadata(string fileName,SyntaxTree syntaxTree)
+        public FileMetadata(string fileName, SyntaxTree syntaxTree)
         {
-            this.FileName = fileName;
+            Classes = new Dictionary<string, ClassDeclarationSyntax>();
+            FileName = fileName;
             SyntaxTree = syntaxTree;
         }
 
@@ -28,11 +28,13 @@ namespace SpaceEngineersScriptCompiler2
         {
             var mainNode = mainMethodLocator.LocateMain(SyntaxTree);
             if (mainNode.HasValue)
-            {
                 MainNode = mainNode.Value;
-            }
+
+            Classes = classLocator.FindClasses(SyntaxTree);
         }
 
-        
+
+
+
     }
 }

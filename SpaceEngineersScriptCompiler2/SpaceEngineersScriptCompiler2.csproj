@@ -149,6 +149,7 @@
   <ItemGroup>
     <Compile Include="FileMetadata.cs" />
     <Compile Include="MainMethodLocator.cs" />
+    <Compile Include="ClassLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DirectorySearcher.cs" />
     <Compile Include="ScriptSearchResult.cs" />

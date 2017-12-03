@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpaceEngineersScriptCompiler2.TestUtils;
@@ -27,7 +26,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void CanParseCSharpSyntax()
         {
-            const string code = "namespace something { class somethingelse { public void methodOne() {} public void methodTwo() {} }}";
+            const string code =
+                "namespace something { class somethingelse { public void methodOne() {} public void methodTwo() {} }}";
             var testFile = fileSystemFixture.WriteTestFile("test.txt", code);
 
             var fileMetadata = syntaxTreeParser.parseFile(testFile);
@@ -45,9 +45,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
             var testFile = fileSystemFixture.WriteTestFile("test.txt", content);
 
             var tree = syntaxTreeParser.parseFile(testFile);
-            
+
             Assert.AreEqual(0, tree.SyntaxTree.GetRoot().DescendantNodes().Count());
         }
-
     }
 }

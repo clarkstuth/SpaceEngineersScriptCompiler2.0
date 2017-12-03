@@ -43,7 +43,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
                     }
                 }
             };
-            
+
 
             var nodeOptional = mainMethodLocator.LocateMain(roslynFixture.CreateSyntaxTree(file));
 
