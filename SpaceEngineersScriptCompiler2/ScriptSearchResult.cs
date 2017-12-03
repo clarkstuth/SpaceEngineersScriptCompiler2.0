@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace SpaceEngineersScriptCompiler2
 {
-    public class Class1
+    public class ScriptSearchResult
     {
+        public string Name { get; }
+
+
+        public ScriptSearchResult(string name)
+        {
+            Name = name;
+        }
+
     }
 }
