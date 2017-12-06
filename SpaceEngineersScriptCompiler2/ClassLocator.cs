@@ -33,7 +33,6 @@ namespace SpaceEngineersScriptCompiler2
             if (node is NamespaceDeclarationSyntax)
             {
                 nameSpace = (node as NamespaceDeclarationSyntax).Name.ToString();
-                Console.WriteLine(nameSpace);
             }
             base.Visit(node);
         }

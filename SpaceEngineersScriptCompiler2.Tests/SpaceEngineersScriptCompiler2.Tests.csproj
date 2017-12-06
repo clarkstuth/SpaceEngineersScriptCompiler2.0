@@ -119,10 +119,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassAnalyzerTest.cs" />
+    <Compile Include="CodeExamples\SingleScriptProgram\SingleScriptProgram.cs" />
+    <Compile Include="CSharpToScriptTransformerTest.cs" />
     <Compile Include="MainMethodLocatorTest.cs" />
     <Compile Include="ClassLocatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DirectorySearcherTest.cs" />
+    <Compile Include="ScriptGeneratorTest.cs" />
     <Compile Include="SyntaxTreeParserTest.cs" />
   </ItemGroup>
   <ItemGroup>

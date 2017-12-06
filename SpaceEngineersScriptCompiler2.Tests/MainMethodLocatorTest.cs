@@ -21,7 +21,6 @@ namespace SpaceEngineersScriptCompiler2.Tests
 
             var nodeOptional = mainMethodLocator.LocateMain(syntaxTree);
 
-            Console.WriteLine(nodeOptional.Value);
             Assert.IsFalse(nodeOptional.HasValue);
         }
 
@@ -48,8 +47,6 @@ namespace SpaceEngineersScriptCompiler2.Tests
             var nodeOptional = mainMethodLocator.LocateMain(roslynFixture.CreateSyntaxTree(file));
 
             Assert.IsTrue(nodeOptional.HasValue);
-            Console.WriteLine(nodeOptional.Value.GetText());
-            Console.WriteLine(file.GetContents());
         }
     }
 }

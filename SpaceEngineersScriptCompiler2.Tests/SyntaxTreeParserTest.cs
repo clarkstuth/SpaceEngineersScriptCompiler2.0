@@ -30,11 +30,11 @@ namespace SpaceEngineersScriptCompiler2.Tests
                 "namespace something { class somethingelse { public void methodOne() {} public void methodTwo() {} }}";
             var testFile = fileSystemFixture.WriteTestFile("test.txt", code);
 
-            var fileMetadata = syntaxTreeParser.parseFile(testFile);
+            var syntaxTree = syntaxTreeParser.parseFile(testFile);
 
-            Assert.IsNotNull(fileMetadata);
+            Assert.IsNotNull(syntaxTree);
 
-            var i = fileMetadata.SyntaxTree.GetRoot().DescendantNodes().First() as NamespaceDeclarationSyntax;
+            var i = syntaxTree.GetRoot().DescendantNodes().First() as NamespaceDeclarationSyntax;
             Assert.IsInstanceOfType(i, typeof(NamespaceDeclarationSyntax));
         }
 
@@ -44,9 +44,9 @@ namespace SpaceEngineersScriptCompiler2.Tests
             const string content = "I'm not a CSharp file at all!";
             var testFile = fileSystemFixture.WriteTestFile("test.txt", content);
 
-            var tree = syntaxTreeParser.parseFile(testFile);
+            var syntaxTree = syntaxTreeParser.parseFile(testFile);
 
-            Assert.AreEqual(0, tree.SyntaxTree.GetRoot().DescendantNodes().Count());
+            Assert.AreEqual(0, syntaxTree.GetRoot().DescendantNodes().Count());
         }
     }
 }
