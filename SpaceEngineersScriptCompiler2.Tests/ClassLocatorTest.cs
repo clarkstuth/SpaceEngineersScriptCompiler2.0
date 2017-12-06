@@ -24,13 +24,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void LocatesStartingClassNodeAlongWithNamespace()
         {
-            var file = new FileBuilder
-            {
-                Namespace = "A.Memespace",
-                Classes = { new ClassBuilder { ClassName = "AClass" } }
-            };
-            var syntaxTree = roslynFixture.CreateSyntaxTree(file);
-
+            var syntaxTree = roslynFixture.CreateSyntaxTree("namespace A.Memespace { class AClass {}}");
+            
             var namespaceToNodeMap = classLocator.FindClasses(syntaxTree);
 
             Assert.IsNotNull(namespaceToNodeMap.Keys.First());
@@ -40,12 +35,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void FindsMultipleClasses()
         {
-            var file = new FileBuilder
-            {
-                Namespace = "A.Bemespace",
-                Classes = { new ClassBuilder { ClassName = "AClass" }, new ClassBuilder { ClassName = "ZClass"} }
-            };
-            var syntaxTree = roslynFixture.CreateSyntaxTree(file);
+            var syntaxTree = roslynFixture.CreateSyntaxTree("namespace A.Bemespace { class AClass {} class ZClass {}}");
 
             var namespaceToNodeMap = classLocator.FindClasses(syntaxTree);
 
@@ -57,17 +47,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void IgnoresInnerClasses()
         {
-            var file = new FileBuilder
-            {
-                Namespace = "A.Bemespace",
-                Classes =
-                {
-                    new ClassBuilder {ClassName = "AClass", Classes = {new ClassBuilder {ClassName = "P.Class"}}},
-                    new ClassBuilder {ClassName = "ZClass"}
-                }
-            };
-            var syntaxTree = roslynFixture.CreateSyntaxTree(file);
-
+            var syntaxTree = roslynFixture.CreateSyntaxTree("namespace A.Bemespace { class AClass { class PClass {} } class ZClass {}}");
+            
             var namespaceToNodeMap = classLocator.FindClasses(syntaxTree);
 
             Assert.AreEqual(2, namespaceToNodeMap.Count);

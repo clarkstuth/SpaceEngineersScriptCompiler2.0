@@ -55,14 +55,5 @@ namespace SpaceEngineersScriptCompiler2.TestUtils
             return file;
         }
 
-        /// <summary>
-        ///     Generates a FileInfo from a provided file builder.
-        /// </summary>
-        /// <param name="fileBuilder"></param>
-        /// <returns></returns>
-        public FileInfo WriteTestFile(FileBuilder fileBuilder)
-        {
-            return WriteTestFile(fileBuilder.FileName, fileBuilder.GetContents());
-        }
     }
 }

@@ -13,11 +13,6 @@ namespace SpaceEngineersScriptCompiler2.TestUtils
             return CSharpSyntaxTree.ParseText(text);
         }
 
-        public SyntaxTree CreateSyntaxTree(FileBuilder fileBuilder)
-        {
-            return CreateSyntaxTree(fileBuilder.GetContents());
-        }
-
         public ClassDeclarationSyntax FindFirstClassDeclaration(SyntaxTree syntaxTree)
         {
             try
