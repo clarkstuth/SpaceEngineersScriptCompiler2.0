@@ -3,17 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SpaceEngineersScriptCompiler2.TestUtils;
 
 namespace SpaceEngineersScriptCompiler2.Tests
 {
     [TestClass]
     public class CSharpToScriptTransformerTest
     {
-        private DirectoryInfo CodeExampleDirectory;
-
-        private DirectoryInfo CodeOutputDirectory =
-            new DirectoryInfo(Path.GetTempPath()).CreateSubdirectory("TestCodeOutput");
-
         private readonly CSharpToScriptTransformer transformer = new CSharpToScriptTransformer();
 
         private DirectoryInfo singleScriptProgramDir;
@@ -24,15 +20,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestInitialize]
         public void Setup()
         {
-            CodeExampleDirectory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent
-                .GetDirectories("CodeExamples").First();
-            if (CodeExampleDirectory.Exists == false)
-            {
-                throw new FileNotFoundException("CodeExampleDirectory directory not found:" +
-                                                CodeExampleDirectory.FullName);
-            }
-
-            CodeOutputDirectory.Create();
+            CodeExampleFixture.CodeOutputDirectory.Create();
 
             singleScriptProgramDir = GetProgramDir("SingleScriptProgram");
             singleProgramTwoScriptsDir = GetProgramDir("SingleProgramTwoScripts");
@@ -41,7 +29,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestCleanup]
         public void Cleanup()
         {
-            foreach (var fileInfo in CodeOutputDirectory.GetFiles())
+            foreach (var fileInfo in CodeExampleFixture.CodeOutputDirectory.GetFiles())
             {
                 fileInfo.Delete();
             }
@@ -49,13 +37,12 @@ namespace SpaceEngineersScriptCompiler2.Tests
 
         private DirectoryInfo GetProgramDir(string name)
         {
-            return CodeExampleDirectory.GetDirectories(name).First();
+            return CodeExampleFixture.CodeExampleDirectory.GetDirectories(name).First();
         }
-
 
         private FileInfo GetOutputScriptFileInfo(string name)
         {
-            return CodeOutputDirectory.GetFiles(name).First();
+            return CodeExampleFixture.CodeOutputDirectory.GetFiles(name).First();
         }
 
         private string GetOutputScript(string name)
@@ -70,7 +57,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void CanFindOneScriptProgram()
         {
-            transformer.Transform(singleScriptProgramDir, CodeOutputDirectory);
+            transformer.Transform(singleScriptProgramDir, CodeExampleFixture.CodeOutputDirectory);
 
             Assert.IsTrue(GetOutputScriptFileInfo(SINGLE_SCRIPT_OUTPUT).Exists);
         }
@@ -78,7 +65,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void ChangesClassConstructorNameToProgram()
         {
-            transformer.Transform(singleScriptProgramDir, CodeOutputDirectory);
+            transformer.Transform(singleScriptProgramDir, CodeExampleFixture.CodeOutputDirectory);
 
             var code = GetOutputScript(SINGLE_SCRIPT_OUTPUT);
             Assert.IsTrue(Regex.IsMatch(code, "public\\s+Program"));
@@ -87,18 +74,18 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void RemoveNamespaceFromClass()
         {
-            transformer.Transform(singleScriptProgramDir, CodeOutputDirectory);
+            transformer.Transform(singleScriptProgramDir, CodeExampleFixture.CodeOutputDirectory);
 
             var code = GetOutputScript(SINGLE_SCRIPT_OUTPUT);
             Console.WriteLine(code);
-            Console.WriteLine(CodeOutputDirectory);
+            Console.WriteLine(CodeExampleFixture.CodeOutputDirectory);
             Assert.IsFalse(Regex.IsMatch(code, "namespace\\s+{"));
         }
 
         [TestMethod]
         public void RemoveOriginalClassDefinition()
         {
-            transformer.Transform(singleScriptProgramDir, CodeOutputDirectory);
+            transformer.Transform(singleScriptProgramDir, CodeExampleFixture.CodeOutputDirectory);
 
             var code = GetOutputScript(SINGLE_SCRIPT_OUTPUT);
             Assert.IsFalse(Regex.IsMatch(code, "class|SingleScriptProgram"));
@@ -107,15 +94,15 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void OnlyOutputOneScriptWhenTwoSourceFilesButOneProgram()
         {
-            transformer.Transform(singleProgramTwoScriptsDir, CodeOutputDirectory);
+            transformer.Transform(singleProgramTwoScriptsDir, CodeExampleFixture.CodeOutputDirectory);
 
-            Assert.AreEqual(1, CodeOutputDirectory.GetFiles().Length);
+            Assert.AreEqual(1, CodeExampleFixture.CodeOutputDirectory.GetFiles().Length);
         }
 
         [TestMethod]
         public void IncludeSecondScriptClassDependencyInsideScript()
         {
-            transformer.Transform(singleProgramTwoScriptsDir, CodeOutputDirectory);
+            transformer.Transform(singleProgramTwoScriptsDir, CodeExampleFixture.CodeOutputDirectory);
 
             var code = GetOutputScript("TwoScriptProgram.cs");
             Assert.IsTrue(Regex.IsMatch(code, "class\\s+Dependency"));
