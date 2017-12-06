@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.CodeAnalysis.Text;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpaceEngineersScriptCompiler2.TestUtils;
 
@@ -15,13 +13,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void CanLocateSingleClassWithNamespace()
         {
-            var file = new FileBuilder
-            {
-                Namespace = "A.Memespace",
-                Classes = { new ClassBuilder { ClassName = "AClass"} }
-            };
-            var syntaxTree = roslynFixture.CreateSyntaxTree(file);
-            
+            var syntaxTree = roslynFixture.CreateSyntaxTree("namespace A.Memespace { class AClass {  } }");
+
             var namespaceToNodeMap = classLocator.FindClasses(syntaxTree);
             
             Assert.AreEqual(1, namespaceToNodeMap.Keys.Count);

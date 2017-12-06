@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SpaceEngineersScriptCompiler2
 {
@@ -12,19 +15,23 @@ namespace SpaceEngineersScriptCompiler2
 
         public void Transform(DirectoryInfo sourceDirectory, DirectoryInfo outputDirectory)
         {
-            var files = sourceDirectory.GetFiles("SingleScriptProgram.cs");
+            var files = sourceDirectory.GetFiles("*.cs");
 
             var analyzedClasses = new Dictionary<FileInfo, AnalyzedClass>();
+
             foreach (var fileInfo in files)
             {
                 var syntaxTree = syntaxTreeParser.parseFile(fileInfo);
                 foreach (var namespaceToClassTree in classLocator.FindClasses(syntaxTree))
                 {
-                    analyzedClasses.Add(fileInfo, classAnalyzer.Analyze(namespaceToClassTree.Key, namespaceToClassTree.Value));
+                    analyzedClasses.Add(fileInfo,
+                        classAnalyzer.Analyze(namespaceToClassTree.Key, namespaceToClassTree.Value));
                 }
             }
 
-            foreach (var fileAndClass in analyzedClasses)
+            Console.WriteLine(analyzedClasses.First().Value.HasMain);
+
+            foreach (var fileAndClass in analyzedClasses.Where(a => a.Value.HasMain))
             {
                 var fileName = outputDirectory.FullName + Path.DirectorySeparatorChar + fileAndClass.Key.Name;
                 using (var fileInfo = new FileInfo(fileName).Create())
@@ -34,5 +41,6 @@ namespace SpaceEngineersScriptCompiler2
                 }
             }
         }
+
     }
 }

@@ -150,8 +150,8 @@
     <Compile Include="AnalyzedClass.cs" />
     <Compile Include="ClassAnalyzer.cs" />
     <Compile Include="CSharpToScriptTransformer.cs" />
-    <Compile Include="MainMethodLocator.cs" />
     <Compile Include="ClassLocator.cs" />
+    <Compile Include="NewStatementLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptGenerator.cs" />
     <Compile Include="SyntaxTreeParser.cs" />

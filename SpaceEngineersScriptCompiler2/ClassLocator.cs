@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -9,37 +8,46 @@ namespace SpaceEngineersScriptCompiler2
 {
     public class ClassLocator : SyntaxWalker
     {
-        private string nameSpace;
-        private readonly Dictionary<string, ClassDeclarationSyntax> classMap = new Dictionary<string, ClassDeclarationSyntax>();
-
         public Dictionary<string, ClassDeclarationSyntax> FindClasses(SyntaxTree syntaxTree)
         {
-            Visit(syntaxTree.GetRoot());
-
-            return classMap;
+            var walker = new ClassSortingSyntaxWalker();
+            walker.FindClasses(syntaxTree);
+            return walker.ClassMap;
         }
 
-        public override void Visit(SyntaxNode node)
+        private class ClassSortingSyntaxWalker : SyntaxWalker
         {
-            if (node is ClassDeclarationSyntax)
-            {
-                var classNode = node as ClassDeclarationSyntax;
-                var className = string.Concat(nameSpace, ".", FindIdentifierToken(classNode).Text);
+            private string @namespace;
+            internal readonly Dictionary<string, ClassDeclarationSyntax> ClassMap = new Dictionary<string, ClassDeclarationSyntax>();
 
-                classMap.Add(className, classNode);
-                return;
+            public void FindClasses(SyntaxTree syntaxTree)
+            {
+                Visit(syntaxTree.GetRoot());
             }
 
-            if (node is NamespaceDeclarationSyntax)
+            public override void Visit(SyntaxNode node)
             {
-                nameSpace = (node as NamespaceDeclarationSyntax).Name.ToString();
-            }
-            base.Visit(node);
-        }
+                if (node is ClassDeclarationSyntax)
+                {
+                    var classNode = node as ClassDeclarationSyntax;
+                    var className = string.Concat(@namespace, ".", FindIdentifierToken(classNode).Text);
 
-        private static SyntaxToken FindIdentifierToken(SyntaxNode node)
-        {
-            return node.ChildTokens().FirstOrDefault(t => t.Kind() == SyntaxKind.IdentifierToken);
+                    ClassMap.Add(className, classNode);
+                    return;
+                }
+
+                if (node is NamespaceDeclarationSyntax)
+                {
+                    @namespace = (node as NamespaceDeclarationSyntax).Name.ToString();
+                }
+                base.Visit(node);
+            }
+
+            private static SyntaxToken FindIdentifierToken(SyntaxNode node)
+            {
+                return node.ChildTokens().FirstOrDefault(t => t.Kind() == SyntaxKind.IdentifierToken);
+
+            }
 
         }
 

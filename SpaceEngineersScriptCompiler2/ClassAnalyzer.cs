@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SpaceEngineersScriptCompiler2
@@ -11,8 +11,13 @@ namespace SpaceEngineersScriptCompiler2
             {
                 Namespace = @namespace,
                 ClassTree = syntaxTree,
-                Main = true
+                HasMain = HasMainMethod(syntaxTree)
             };
+        }
+
+        private bool HasMainMethod(ClassDeclarationSyntax syntax)
+        {
+            return syntax.DescendantNodes().OfType<MethodDeclarationSyntax>().Any(m => m.Identifier.ToString() == "Main");
         }
     }
 }

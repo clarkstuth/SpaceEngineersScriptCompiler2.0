@@ -120,10 +120,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassAnalyzerTest.cs" />
+    <Compile Include="CodeExamples\SingleProgramTwoScripts\Dependency.cs" />
+    <Compile Include="CodeExamples\SingleProgramTwoScripts\TwoScriptProgram.cs" />
     <Compile Include="CodeExamples\SingleScriptProgram\SingleScriptProgram.cs" />
     <Compile Include="CSharpToScriptTransformerTest.cs" />
-    <Compile Include="MainMethodLocatorTest.cs" />
     <Compile Include="ClassLocatorTest.cs" />
+    <Compile Include="NewStatementLocatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptGeneratorTest.cs" />
     <Compile Include="SyntaxTreeParserTest.cs" />

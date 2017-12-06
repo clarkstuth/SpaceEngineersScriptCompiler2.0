@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpaceEngineersScriptCompiler2.TestUtils;
 
@@ -42,7 +39,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
         [TestMethod]
         public void ShouldRemoveOriginalClassDefinition()
         {
-            var code = "class MyClass { public MyClass() {  } public Main() {} }";
+            var code = "class MyClass { public MyClass() {  } public HasMain() {} }";
             var syntaxTree = roslynFixture.CreateSyntaxTree(code);
             var classTree = roslynFixture.FindFirstClassDeclaration(syntaxTree);
 

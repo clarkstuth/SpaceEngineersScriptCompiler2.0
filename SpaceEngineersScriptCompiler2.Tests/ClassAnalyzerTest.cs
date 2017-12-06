@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpaceEngineersScriptCompiler2.TestUtils;
 
 namespace SpaceEngineersScriptCompiler2.Tests
@@ -26,7 +22,29 @@ namespace SpaceEngineersScriptCompiler2.Tests
             Assert.AreEqual(@namespace, analyzedClass.Namespace);
         }
 
+        [TestMethod]
+        public void ResultShouldIndicateIfTheClassHasAMainMethod()
+        {
+            var syntaxTree = roslynFixture.CreateSyntaxTree("class MyClass { public void Main(string Argument){} }");
+            var classTree = roslynFixture.FindFirstClassDeclaration(syntaxTree);
+            var @namespace = "MyNamespace";
 
+            var analyzedClass = classAnalyzer.Analyze(@namespace, classTree);
+
+            Assert.IsTrue(analyzedClass.HasMain);
+        }
+
+        [TestMethod]
+        public void ClassThatDoesNotHaveMain()
+        {
+            var syntaxTree = roslynFixture.CreateSyntaxTree("class MyClass { public void NotMain(string Argument){} }");
+            var classTree = roslynFixture.FindFirstClassDeclaration(syntaxTree);
+            var @namespace = "MyNamespace";
+
+            var analyzedClass = classAnalyzer.Analyze(@namespace, classTree);
+
+            Assert.IsFalse(analyzedClass.HasMain);
+        }
 
     }
 }

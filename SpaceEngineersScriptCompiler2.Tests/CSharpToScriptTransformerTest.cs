@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SpaceEngineersScriptCompiler2.Tests
@@ -18,8 +15,11 @@ namespace SpaceEngineersScriptCompiler2.Tests
             new DirectoryInfo(Path.GetTempPath()).CreateSubdirectory("TestCodeOutput");
 
         private readonly CSharpToScriptTransformer transformer = new CSharpToScriptTransformer();
+
         private DirectoryInfo singleScriptProgramDir;
-        private string singleScriptOutput = "SingleScriptProgram.cs";
+        private const string SINGLE_SCRIPT_OUTPUT = "SingleScriptProgram.cs";
+
+        private DirectoryInfo singleProgramTwoScriptsDir;
 
         [TestInitialize]
         public void Setup()
@@ -35,6 +35,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
             CodeOutputDirectory.Create();
 
             singleScriptProgramDir = GetProgramDir("SingleScriptProgram");
+            singleProgramTwoScriptsDir = GetProgramDir("SingleProgramTwoScripts");
         }
 
         [TestCleanup]
@@ -71,7 +72,7 @@ namespace SpaceEngineersScriptCompiler2.Tests
         {
             transformer.Transform(singleScriptProgramDir, CodeOutputDirectory);
 
-            Assert.IsTrue(GetOutputScriptFileInfo(singleScriptOutput).Exists);
+            Assert.IsTrue(GetOutputScriptFileInfo(SINGLE_SCRIPT_OUTPUT).Exists);
         }
 
         [TestMethod]
@@ -79,8 +80,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
         {
             transformer.Transform(singleScriptProgramDir, CodeOutputDirectory);
 
-            var code = GetOutputScript(singleScriptOutput);
-            StringAssert.Contains(code, "public Program()");
+            var code = GetOutputScript(SINGLE_SCRIPT_OUTPUT);
+            Assert.IsTrue(Regex.IsMatch(code, "public\\s+Program"));
         }
 
         [TestMethod]
@@ -88,10 +89,10 @@ namespace SpaceEngineersScriptCompiler2.Tests
         {
             transformer.Transform(singleScriptProgramDir, CodeOutputDirectory);
 
-            var code = GetOutputScript(singleScriptOutput);
+            var code = GetOutputScript(SINGLE_SCRIPT_OUTPUT);
             Console.WriteLine(code);
             Console.WriteLine(CodeOutputDirectory);
-            Assert.IsFalse(code.Contains("namespace"));
+            Assert.IsFalse(Regex.IsMatch(code, "namespace\\s+{"));
         }
 
         [TestMethod]
@@ -99,10 +100,25 @@ namespace SpaceEngineersScriptCompiler2.Tests
         {
             transformer.Transform(singleScriptProgramDir, CodeOutputDirectory);
 
-            var code = GetOutputScript(singleScriptOutput);
-            
+            var code = GetOutputScript(SINGLE_SCRIPT_OUTPUT);
             Assert.IsFalse(Regex.IsMatch(code, "class|SingleScriptProgram"));
         }
 
+        [TestMethod]
+        public void OnlyOutputOneScriptWhenTwoSourceFilesButOneProgram()
+        {
+            transformer.Transform(singleProgramTwoScriptsDir, CodeOutputDirectory);
+
+            Assert.AreEqual(1, CodeOutputDirectory.GetFiles().Length);
+        }
+
+        [TestMethod]
+        public void IncludeSecondScriptClassDependencyInsideScript()
+        {
+            transformer.Transform(singleProgramTwoScriptsDir, CodeOutputDirectory);
+
+            var code = GetOutputScript("TwoScriptProgram.cs");
+            Assert.IsTrue(Regex.IsMatch(code, "class\\s+Dependency"));
+        }
     }
 }
