@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace SpaceEngineersScriptCompiler2.TestUtils
+namespace SpaceEngineersScriptCompiler2.Tests.Fixtures
 {
     public class CodeExampleFixture
     {

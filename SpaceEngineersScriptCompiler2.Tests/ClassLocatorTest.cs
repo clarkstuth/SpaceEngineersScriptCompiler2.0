@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SpaceEngineersScriptCompiler2.TestUtils;
+using SpaceEngineersScriptCompiler2.Tests.Fixtures;
 
 namespace SpaceEngineersScriptCompiler2.Tests
 {

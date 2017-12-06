@@ -125,6 +125,8 @@
     <Compile Include="CodeExamples\SingleScriptProgram\SingleScriptProgram.cs" />
     <Compile Include="CSharpToScriptTransformerTest.cs" />
     <Compile Include="ClassLocatorTest.cs" />
+    <Compile Include="Fixtures\CodeExampleFixture.cs" />
+    <Compile Include="Fixtures\RoslynFixture.cs" />
     <Compile Include="NewStatementLocatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptGeneratorTest.cs" />
@@ -135,10 +137,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SpaceEngineersScriptCompiler2.TestUtils\SpaceEngineersScriptCompiler2.TestUtils.csproj">
-      <Project>{EDC3A62D-4189-433C-87DE-6CFFEB4B8278}</Project>
-      <Name>SpaceEngineersScriptCompiler2.TestUtils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SpaceEngineersScriptCompiler2\SpaceEngineersScriptCompiler2.csproj">
       <Project>{99fd9e54-7d16-40ca-929c-58213e702a80}</Project>
       <Name>SpaceEngineersScriptCompiler2</Name>

@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceEngineersScriptCompile
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceEngineersScriptCompiler2.Tests", "SpaceEngineersScriptCompiler2.Tests\SpaceEngineersScriptCompiler2.Tests.csproj", "{532DB182-947A-4172-BBE7-2DC47FF63A45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceEngineersScriptCompiler2.TestUtils", "SpaceEngineersScriptCompiler2.TestUtils\SpaceEngineersScriptCompiler2.TestUtils.csproj", "{EDC3A62D-4189-433C-87DE-6CFFEB4B8278}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{532DB182-947A-4172-BBE7-2DC47FF63A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{532DB182-947A-4172-BBE7-2DC47FF63A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{532DB182-947A-4172-BBE7-2DC47FF63A45}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDC3A62D-4189-433C-87DE-6CFFEB4B8278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDC3A62D-4189-433C-87DE-6CFFEB4B8278}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDC3A62D-4189-433C-87DE-6CFFEB4B8278}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDC3A62D-4189-433C-87DE-6CFFEB4B8278}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

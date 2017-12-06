@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SpaceEngineersScriptCompiler2.TestUtils;
+using SpaceEngineersScriptCompiler2.Tests.Fixtures;
 
 namespace SpaceEngineersScriptCompiler2.Tests
 {
@@ -11,6 +11,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
     public class CSharpToScriptTransformerTest
     {
         private readonly CSharpToScriptTransformer transformer = new CSharpToScriptTransformer();
+
+        private readonly CodeExampleFixture codeExampleFixture = new CodeExampleFixture();
 
         private DirectoryInfo singleScriptProgramDir;
         private const string SINGLE_SCRIPT_OUTPUT = "SingleScriptProgram.cs";
