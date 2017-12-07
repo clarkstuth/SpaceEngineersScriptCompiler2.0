@@ -125,6 +125,7 @@
     <Compile Include="CodeExamples\SingleScriptProgram\SingleScriptProgram.cs" />
     <Compile Include="CSharpToScriptTransformerTest.cs" />
     <Compile Include="ClassLocatorTest.cs" />
+    <Compile Include="DependencyResolverTest.cs" />
     <Compile Include="Fixtures\CodeExampleFixture.cs" />
     <Compile Include="Fixtures\RoslynFixture.cs" />
     <Compile Include="NewStatementLocatorTest.cs" />
