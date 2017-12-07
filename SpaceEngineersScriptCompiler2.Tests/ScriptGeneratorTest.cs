@@ -20,7 +20,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
             var syntaxTree = roslynFixture.CreateSyntaxTree(code);
             var classTree = roslynFixture.FindFirstClassDeclaration(syntaxTree);
 
-            var script = scriptGenerator.Generate(new AnalyzedClass {ClassTree = classTree}, new HashSet<AnalyzedClass>());
+            var script = scriptGenerator.Generate(new AnalyzedClass {ClassTree = classTree, ClassShortName = "MyClass"},
+                new HashSet<AnalyzedClass>());
 
             StringAssert.Contains(script, "public Program() {}");
         }
@@ -32,7 +33,9 @@ namespace SpaceEngineersScriptCompiler2.Tests
             var syntaxTree = roslynFixture.CreateSyntaxTree(code);
             var classTree = roslynFixture.FindFirstClassDeclaration(syntaxTree);
 
-            var script = scriptGenerator.Generate(new AnalyzedClass {ClassTree = classTree}, new HashSet<AnalyzedClass>());
+            var script = scriptGenerator.Generate(
+                new AnalyzedClass {ClassTree = classTree, ClassShortName = "AnotherClass"},
+                new HashSet<AnalyzedClass>());
 
             Assert.IsTrue(Regex.IsMatch(script, "public\\s+Program"));
         }
@@ -44,7 +47,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
             var syntaxTree = roslynFixture.CreateSyntaxTree(code);
             var classTree = roslynFixture.FindFirstClassDeclaration(syntaxTree);
 
-            var script = scriptGenerator.Generate(new AnalyzedClass {ClassTree = classTree}, new HashSet<AnalyzedClass>());
+            var script = scriptGenerator.Generate(new AnalyzedClass {ClassTree = classTree, ClassShortName = "MyClass"},
+                new HashSet<AnalyzedClass>());
             Console.WriteLine(script);
 
             Assert.IsFalse(Regex.IsMatch(script, "class\\s+\\w+\\s*{"));
@@ -58,12 +62,17 @@ namespace SpaceEngineersScriptCompiler2.Tests
             var syntaxTree = roslynFixture.CreateSyntaxTree(code);
             var classTree = roslynFixture.FindFirstClassDeclaration(syntaxTree);
 
-            var dependencyCode = "class MyObject() { }";
+            var dependencyCode = "class MyObject { }";
             var dependencySyntaxTree = roslynFixture.CreateSyntaxTree(dependencyCode);
             var dependencyClassTree = roslynFixture.FindFirstClassDeclaration(dependencySyntaxTree);
             var dependencies = new HashSet<AnalyzedClass> {new AnalyzedClass {ClassTree = dependencyClassTree}};
 
-            var script = scriptGenerator.Generate(new AnalyzedClass {ClassTree = classTree}, dependencies);
+            var script =
+                scriptGenerator.Generate(new AnalyzedClass
+                    {
+                        ClassTree = classTree, ClassShortName = "MyClass"
+                    },
+                    dependencies);
 
             Console.WriteLine(script);
 

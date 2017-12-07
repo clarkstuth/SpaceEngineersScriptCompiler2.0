@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SpaceEngineersScriptCompiler2
 {
     public class ScriptGenerator
     {
-        private readonly Regex classDefinitionPattern = new Regex("^\\s*class\\s*Program\\s*{");
+        private readonly Regex classDefinitionPattern = new Regex("^\\s*class\\s*Program\\s*{", RegexOptions.Multiline);
 
         public string Generate(AnalyzedClass analyzedClass, ISet<AnalyzedClass> dependencies)
         {
-            var sb = new StringBuilder();
-
-            sb.Append(RemoveOriginalClassDefinition(analyzedClass.ClassTree.GetText().ToString()));
-            sb.Replace(analyzedClass.ClassTree.Identifier.ToString(), "Program");
+            var script = StandardizeClassNameToProgram(analyzedClass.ClassTree.GetText().ToString(), analyzedClass.ClassShortName);
+            var sb = new StringBuilder(RemoveOriginalClassDefinition(script));
             AddDependencies(dependencies, sb);
-
-            return Regex.Replace(sb.ToString(), "^\\s*class\\s*Program\\s*{", "");
+            return sb.ToString();
         }
 
-        private string RemoveOriginalClassDefinition(string originalClass)
+        private string StandardizeClassNameToProgram(string script, string className)
         {
-            var removedMainClass = classDefinitionPattern.Replace(originalClass, "");
+            return script.Replace(className, "Program");
+        }
+
+        private string RemoveOriginalClassDefinition(string originalScript)
+        {
+            var removedMainClass = classDefinitionPattern.Replace(originalScript, "");
             return removedMainClass.Substring(0, removedMainClass.LastIndexOf("}") - 1);
         }
 
@@ -30,7 +31,7 @@ namespace SpaceEngineersScriptCompiler2
         {
             foreach (var dependency in dependencies)
             {
-                sb.Append(dependency.ClassTree.WithModifiers(dependency.ClassTree.Modifiers).ToString());
+                sb.Append(dependency.ClassTree.WithModifiers(dependency.ClassTree.Modifiers));
             }
         }
     }

@@ -12,6 +12,5 @@ namespace SpaceEngineersScriptCompiler2.Tests.Fixtures
 
         public static readonly DirectoryInfo CodeOutputDirectory =
             new DirectoryInfo(Path.GetTempPath()).CreateSubdirectory("TestCodeOutput");
-
     }
 }

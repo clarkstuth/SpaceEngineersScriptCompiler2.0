@@ -107,7 +107,8 @@ namespace SpaceEngineersScriptCompiler2.Tests
             transformer.Transform(singleProgramTwoScriptsDir, CodeExampleFixture.CodeOutputDirectory);
 
             var code = GetOutputScript("TwoScriptProgram.cs");
-            Assert.IsTrue(Regex.IsMatch(code, "class\\s+Dependency"));
+
+            Assert.IsTrue(Regex.IsMatch(code, "class Dependency\\s+{\\s+public\\s+void\\s+doSomething\\(\\)\\s+{\\s+}\\s+}"));
         }
     }
 }
